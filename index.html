@@ -348,7 +348,8 @@
     <div class="hero">
       <div class="hero-card">
         <div class="hero-img">
-          <img src="profit-hub-banner.png" alt="Profit Hub banner" />
+          <!-- ✅ FIXED IMAGE LINK -->
+          <img src="https://iili.io/fXynnYQ.png" alt="Profit Hub banner" />
         </div>
 
         <div class="hero-content">
@@ -588,7 +589,7 @@
   </main>
 
   <div class="footer">
-    Image: save your banner as <span class="mono">profit-hub-banner.png</span> in the same folder as this HTML.
+    Banner loaded from: <span class="mono">https://iili.io/fXynnYQ.png</span>
   </div>
 
 <script>
@@ -644,17 +645,18 @@
   }
 
   // ✅ Adjusted Cost Basis (per share)
-  // For CSP: (Put Strike) - (credit per share). Credit per share uses Actual Credit if present,
-  // otherwise Expected Credit (so the number is never "wrong" just because you forgot to type actual).
+  // For CSP: (Put Strike) - (credit per share).
+  // Uses Actual Credit if present, otherwise Expected Credit.
   function calcAdjustedCostBasisPerShare(pos){
     if (pos.strategy !== "CSP") return null;
+
     const creditTotal =
-      isNum(pos.creditActual) ? Number(pos.creditActual)
-      : (isNum(pos.creditExpected) ? Number(pos.creditExpected) : null);
+      (isNum(pos.creditActual) ? Number(pos.creditActual)
+       : (isNum(pos.creditExpected) ? Number(pos.creditExpected) : null));
 
     if (!isNum(pos.putStrike) || creditTotal === null) return null;
 
-    const contracts = isNum(pos.contracts) && Number(pos.contracts) > 0 ? Number(pos.contracts) : 1;
+    const contracts = (isNum(pos.contracts) && Number(pos.contracts) > 0) ? Number(pos.contracts) : 1;
     const perShareCredit = creditTotal / (contracts * 100);
     return Number(pos.putStrike) - perShareCredit;
   }
@@ -674,6 +676,7 @@
 
     let wins=0, losses=0, breakevens=0, totalPL=0;
     for (const p of closed){
+      // ✅ Profit = credit - debit (total dollars)
       const pl = (isNum(p.creditActual)?Number(p.creditActual):0) - (isNum(p.closeDebit)?Number(p.closeDebit):0);
       totalPL += pl;
       if (pl > 0) wins++;
@@ -811,7 +814,6 @@
       });
     });
 
-    // ✅ NEW: Edit button
     wrap.querySelectorAll("button[data-edit]").forEach(btn => {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-edit");
@@ -847,6 +849,7 @@
         </thead>
         <tbody>
           ${closed.map(p => {
+            // ✅ Profit = credit - debit
             const pl = (isNum(p.creditActual)?Number(p.creditActual):0) - (isNum(p.closeDebit)?Number(p.closeDebit):0);
             const resClass = pl>0?"good":(pl<0?"bad":"warn");
             const resText = pl>0?"Win":(pl<0?"Loss":"Breakeven");
@@ -885,7 +888,6 @@
     });
   }
 
-  // ✅ FIXED: always selectable + auto-select first open
   function renderCloseDropdown(){
     const open = loadPositions().filter(p => p.status === "OPEN");
     const sel = document.getElementById("closeSelect");
@@ -903,7 +905,6 @@
       return `<option value="${p.id}">${escapeHtml(label)}</option>`;
     }).join("");
 
-    // ✅ ALWAYS make sure something is selected
     if (!sel.value) sel.value = open[0].id;
   }
 
@@ -997,7 +998,6 @@
 
     editingOpenId = id;
 
-    // Fill form
     document.getElementById("ticker").value = pos.ticker || "";
     document.getElementById("strategy").value = pos.strategy || "CSP";
     document.getElementById("entryDate").value = pos.entryDate || "";
@@ -1011,11 +1011,9 @@
     document.getElementById("tags").value = (pos.tags || []).join(", ");
     document.getElementById("notes").value = pos.notes || "";
 
-    // UI toggles
     document.getElementById("btnSaveOpen").textContent = "Update Open Position";
     document.getElementById("btnCancelEdit").style.display = "inline-block";
 
-    // Scroll to form
     document.getElementById("openForm").scrollIntoView({behavior:"smooth", block:"start"});
   }
 
@@ -1063,7 +1061,6 @@
 
     const positions = loadPositions();
 
-    // ✅ If editing, update existing open position (keeps id, createdAt, status, close fields)
     if (editingOpenId){
       const idx = positions.findIndex(p => p.id === editingOpenId && p.status === "OPEN");
       if (idx === -1){
@@ -1072,17 +1069,13 @@
         refreshUI();
         return;
       }
-      positions[idx] = {
-        ...positions[idx],
-        ...newData
-      };
+      positions[idx] = { ...positions[idx], ...newData };
       savePositions(positions);
       exitEditMode();
       refreshUI();
       return;
     }
 
-    // ✅ Otherwise create a new open position
     const pos = {
       id: uid(),
       status: "OPEN",
@@ -1131,7 +1124,6 @@
       return;
     }
 
-    // If you were editing this one, exit edit mode automatically
     if (editingOpenId === id) exitEditMode(true);
 
     positions[idx].status = "CLOSED";
