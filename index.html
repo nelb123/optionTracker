@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Options Edge Tracker (Local)</title>
+  <title>Profit Hub — Options Edge Tracker</title>
   <style>
     :root{
       --bg:#0b1220;
@@ -30,27 +30,87 @@
       color:var(--text);
       min-height:100vh;
     }
+
     header{
-      padding:22px 18px 10px;
-      max-width:1150px;
+      padding:18px 18px 10px;
+      max-width:1180px;
       margin:0 auto;
       display:flex;
-      justify-content:space-between;
-      align-items:center;
+      flex-direction:column;
       gap:12px;
+    }
+    .hero{
+      display:flex;
+      gap:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){
+      .hero{flex-direction:column;}
+    }
+    .hero-card{
+      flex: 1;
+      background: rgba(15,26,46,.92);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex;
+      align-items:stretch;
+      min-height:140px;
+    }
+    .hero-img{
+      width:360px;
+      max-width:42%;
+      background: rgba(11,18,32,.4);
+      border-right:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    @media (max-width: 980px){
+      .hero-img{width:100%; max-width:100%; border-right:0; border-bottom:1px solid var(--line);}
+    }
+    .hero-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .hero-content{
+      flex: 1;
+      padding:14px 14px 12px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .brand-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      flex-wrap:wrap;
     }
     .brand{
       display:flex; align-items:center; gap:10px;
+      min-width:240px;
     }
     .logo{
-      width:38px;height:38px;border-radius:12px;
-      background: linear-gradient(135deg, #5aa7ff, #9b5cff);
+      width:40px;height:40px;border-radius:12px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
       box-shadow: var(--shadow);
     }
     h1{margin:0; font-size:18px; letter-spacing:.2px}
     .sub{color:var(--muted); font-size:13px; margin-top:2px}
+
     .top-actions{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
     }
     button{
       background:transparent;
@@ -60,7 +120,7 @@
       border-radius:12px;
       cursor:pointer;
       transition: .15s ease;
-      font-weight:600;
+      font-weight:700;
     }
     button:hover{border-color:#2b4270; transform: translateY(-1px);}
     button.primary{
@@ -68,15 +128,33 @@
       border:0;
       box-shadow: var(--shadow);
     }
-    button.danger{border-color:rgba(255,91,110,.6); color:#ffd1d7;}
-    button.danger:hover{border-color:rgba(255,91,110,.9);}
+    button.danger{
+      border-color:rgba(255,91,110,.6);
+      color:#ffd1d7;
+    }
+    button.danger:hover{border-color:rgba(255,91,110,.95);}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(11,18,32,.45);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;}
+    .dot.good{background:#35d07f}
+    .dot.bad{background:#ff5b6e}
+    .dot.warn{background:#ffd166}
 
     main{
-      max-width:1150px;
+      max-width:1180px;
       margin:0 auto;
       padding:10px 18px 40px;
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.15fr .85fr;
       gap:14px;
     }
     @media (max-width: 980px){
@@ -97,6 +175,7 @@
       align-items:flex-end;
       justify-content:space-between;
       gap:12px;
+      flex-wrap:wrap;
     }
     .card .hd h2{margin:0; font-size:14px; letter-spacing:.2px}
     .card .hd .hint{color:var(--muted); font-size:12px}
@@ -110,7 +189,6 @@
     @media (max-width: 980px){
       .grid{grid-template-columns: repeat(2, 1fr)}
     }
-
     .stat{
       padding:12px;
       border-radius:14px;
@@ -118,31 +196,10 @@
       background: rgba(11,18,32,.5);
     }
     .stat .k{color:var(--muted); font-size:12px}
-    .stat .v{font-size:18px; font-weight:800; margin-top:6px; font-family:var(--mono)}
+    .stat .v{font-size:18px; font-weight:900; margin-top:6px; font-family:var(--mono)}
 
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(11,18,32,.45);
-      color:var(--muted);
-      font-size:12px;
-      white-space:nowrap;
-    }
-    .dot{width:8px;height:8px;border-radius:50%;}
-    .dot.good{background:var(--good)}
-    .dot.bad{background:var(--bad)}
-    .dot.warn{background:var(--warn)}
-
-    form{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    @media (max-width: 560px){
-      form{grid-template-columns:1fr}
-    }
+    .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .toolbar input{max-width:320px}
 
     label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
     input, select, textarea{
@@ -154,9 +211,16 @@
       color:var(--text);
       outline:none;
     }
-    input::placeholder, textarea::placeholder{color:#6f84b3}
-    textarea{min-height:90px; resize:vertical}
+    textarea{min-height:92px; resize:vertical}
 
+    form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 560px){
+      form{grid-template-columns:1fr}
+    }
     .row-actions{
       grid-column: 1 / -1;
       display:flex;
@@ -168,20 +232,7 @@
     .row-actions .spacer{flex:1}
     .note{font-size:12px; color:var(--muted);}
 
-    .toolbar{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .toolbar input{max-width:260px}
-
-    /* --- Table --- */
-    #tableWrap{
-      overflow-x:auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
+    #openWrap, #closedWrap{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
     table{
       width:100%;
       border-collapse:separate;
@@ -189,9 +240,8 @@
       overflow:hidden;
       border-radius: 14px;
       border:1px solid var(--line);
-      min-width: 1100px; /* forces scroll when many columns */
+      min-width: 1200px;
     }
-
     thead th{
       text-align:left;
       font-size:12px;
@@ -199,12 +249,10 @@
       padding:10px 10px;
       background: rgba(11,18,32,.65);
       border-bottom:1px solid var(--line);
-
       position: sticky;
       top: 0;
       z-index: 4;
     }
-
     tbody td{
       padding:10px 10px;
       border-bottom:1px solid rgba(28,43,74,.7);
@@ -222,16 +270,13 @@
       background: rgba(11,18,32,.45);
       display:inline-block;
     }
-
-    .result.good{color:var(--good); font-weight:800}
-    .result.bad{color:var(--bad); font-weight:800}
-    .result.warn{color:var(--warn); font-weight:800}
-
     .small{font-size:12px; color:var(--muted)}
+    .mono{font-family:var(--mono)}
+    .result.good{color:#35d07f; font-weight:900}
+    .result.bad{color:#ff5b6e; font-weight:900}
+    .result.warn{color:#ffd166; font-weight:900}
 
-    /* Sticky last column so Delete is always visible */
-    th:last-child,
-    td:last-child{
+    th:last-child, td:last-child{
       position: sticky;
       right: 0;
       background: rgba(11,18,32,.95);
@@ -240,8 +285,7 @@
       white-space: nowrap;
     }
 
-    /* Compact delete button */
-    .btn-del{
+    .btn-del, .btn-close, .btn-edit{
       padding: 8px 10px;
       border-radius: 10px;
       border: 1px solid rgba(255,91,110,.7);
@@ -251,27 +295,23 @@
       line-height: 1;
       cursor:pointer;
     }
-    .btn-del:hover{
-      border-color: rgba(255,91,110,1);
-      transform: translateY(-1px);
+    .btn-close{
+      border-color: rgba(90,167,255,.7);
+      background: rgba(90,167,255,.10);
+      color:#d7e9ff;
+      margin-right:6px;
+    }
+    .btn-edit{
+      border-color: rgba(53,208,127,.65);
+      background: rgba(53,208,127,.10);
+      color:#d7ffe9;
+      margin-right:6px;
     }
 
-    .right-col{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
+    .right-col{display:flex; flex-direction:column; gap:14px;}
 
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-
-    .list{
-      display:flex; flex-direction:column; gap:8px;
-    }
-
+    .split{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    .list{display:flex; flex-direction:column; gap:8px;}
     .item{
       display:flex; justify-content:space-between; gap:10px;
       padding:10px;
@@ -280,7 +320,7 @@
       background: rgba(11,18,32,.5);
     }
     .item .left{display:flex; flex-direction:column; gap:2px}
-    .item .title{font-weight:800; font-family:var(--mono)}
+    .item .title{font-weight:900; font-family:var(--mono)}
     .item .meta{font-size:12px; color:var(--muted)}
     .item .val{font-weight:900; font-family:var(--mono)}
 
@@ -291,83 +331,150 @@
       color:var(--muted);
       font-size:13px;
       background: rgba(11,18,32,.35);
-    s
+    }
 
     .footer{
-      max-width:1150px; margin:0 auto;
-      padding:0 18px 24px;
+      max-width:1180px;
+      margin:0 auto;
+      padding:0 18px 26px;
       color:var(--muted);
       font-size:12px;
     }
-
-    a{color:#9ec7ff; text-decoration:none}
-    a:hover{text-decoration:underline}
   </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>Options Edge Tracker <span class="small"></span></h1>
-        <div class="sub">Log selling-option trades • See win rate • Track your edge</div>
-      </div>
-    </div>
 
-    <div class="top-actions">
-      <button id="btnExport">Export CSV</button>
-      <button class="danger" id="btnClear">Clear All</button>
-      <button class="primary" id="btnAddSample">Add Sample Trades</button>
+  <header>
+    <div class="hero">
+      <div class="hero-card">
+        <div class="hero-img">
+          <img src="profit-hub-banner.png" alt="Profit Hub banner" />
+        </div>
+
+        <div class="hero-content">
+          <div class="brand-row">
+            <div class="brand">
+              <div class="logo" aria-hidden="true"></div>
+              <div>
+                <h1>PROFIT HUB — Options Edge Tracker</h1>
+                <div class="sub">Open → Close later • Win rate (closed only) • Account balance • Adjusted cost basis</div>
+              </div>
+            </div>
+
+            <div class="top-actions">
+              <button id="btnExport">Export CSV</button>
+              <button class="danger" id="btnClearAll">Clear All</button>
+              <button class="primary" id="btnAddSample">Add Sample</button>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <span class="pill"><span class="dot good"></span> Win</span>
+            <span class="pill"><span class="dot warn"></span> Breakeven</span>
+            <span class="pill"><span class="dot bad"></span> Loss</span>
+            <span class="pill">Sticky Action Column</span>
+            <span class="pill">Expected vs Actual Credit</span>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
   <main>
-    <!-- LEFT: Dashboard + Table -->
     <section class="card">
       <div class="hd">
         <div>
           <h2>Dashboard</h2>
-          <div class="hint">Win rate + quick performance stats (manual entry)</div>
+          <div class="hint">Win rate uses CLOSED trades only</div>
         </div>
         <div class="toolbar">
-          <span class="pill"><span class="dot good"></span> Win</span>
-          <span class="pill"><span class="dot warn"></span> Breakeven</span>
-          <span class="pill"><span class="dot bad"></span> Loss</span>
-          <input id="search" type="text" placeholder="Search (ticker/strategy/note)"/>
+          <input id="search" type="text" placeholder="Search (ticker/strategy/tags/notes)" />
         </div>
       </div>
 
       <div class="bd">
-        <div class="grid" id="statsGrid">
-          <!-- stats injected -->
-        </div>
+        <div class="grid" id="statsGrid"></div>
 
-        <div style="height:12px"></div>
+        <div style="height:14px"></div>
 
         <div class="card" style="background:transparent; border:none; box-shadow:none">
           <div class="hd" style="padding:0 0 10px; border:0">
-            <h2>Trades</h2>
-            <div class="hint">Click “✕” to delete a row</div>
+            <h2>Open Positions</h2>
+            <div class="hint">Close later • Buttons stay visible</div>
           </div>
           <div class="bd" style="padding:0">
-            <div id="tableWrap"></div>
+            <div id="openWrap"></div>
           </div>
         </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card" style="background:transparent; border:none; box-shadow:none">
+          <div class="hd" style="padding:0 0 10px; border:0">
+            <h2>Closed Positions</h2>
+            <div class="hint">P/L = Actual Credit − Close Debit</div>
+          </div>
+          <div class="bd" style="padding:0">
+            <div id="closedWrap"></div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card" style="background:transparent; border:none; box-shadow:none">
+          <div class="hd" style="padding:0 0 10px; border:0">
+            <h2>Breakdown</h2>
+            <div class="hint">Win rate by strategy + ticker (closed trades)</div>
+          </div>
+          <div class="bd" style="padding:0">
+            <div class="split">
+              <div>
+                <div class="small" style="margin:0 0 8px">By Strategy</div>
+                <div class="list" id="byStrategy"></div>
+              </div>
+              <div>
+                <div class="small" style="margin:0 0 8px">Top Tickers</div>
+                <div class="list" id="byTicker"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- RIGHT: Add Trade + Breakdown -->
     <div class="right-col">
       <section class="card">
         <div class="hd">
           <div>
-            <h2>Add Trade</h2>
-            <div class="hint">Keep it fast — under 30 seconds</div>
+            <h2>Account</h2>
+            <div class="hint">Set starting balance once — updates from credits/debits</div>
           </div>
         </div>
-
         <div class="bd">
-          <form id="tradeForm">
+          <form id="accountForm">
+            <div style="grid-column:1/-1">
+              <label>Starting Account Balance ($)</label>
+              <input id="startingBalance" type="number" step="0.01" placeholder="e.g., 5000.00" />
+            </div>
+            <div class="row-actions">
+              <button class="primary" type="submit">Save Balance</button>
+              <span class="spacer"></span>
+              <span class="note">Stored locally (localStorage)</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="hd">
+          <div>
+            <h2>Add Open Position</h2>
+            <div class="hint">Log when you SELL to open (Edit button lets you update later)</div>
+          </div>
+        </div>
+        <div class="bd">
+          <form id="openForm">
             <div>
               <label>Ticker</label>
               <input id="ticker" placeholder="e.g., SPY, TSLA, NVDA" required />
@@ -395,27 +502,28 @@
             </div>
 
             <div>
+              <label>Contracts</label>
+              <input id="contracts" type="number" step="1" min="1" value="1" required />
+            </div>
+
+            <div>
               <label>Strike(s)</label>
-              <input id="strikes" placeholder="e.g., 420p or 450/455" />
+              <input id="strikes" placeholder="e.g., 470p or 450/455" />
             </div>
 
             <div>
-              <label>Result</label>
-              <select id="result" required>
-                <option value="Win">Win</option>
-                <option value="Breakeven">Breakeven</option>
-                <option value="Loss">Loss</option>
-              </select>
+              <label>Expected Credit ($)</label>
+              <input id="creditExpected" type="number" step="0.01" placeholder="e.g., 85.00" />
             </div>
 
             <div>
-              <label>Credit Received ($)</label>
-              <input id="credit" type="number" step="0.01" placeholder="e.g., 85.00" />
+              <label>Actual Credit Received ($)</label>
+              <input id="creditActual" type="number" step="0.01" placeholder="e.g., 82.50" />
             </div>
 
             <div>
-              <label>P/L ($)</label>
-              <input id="pl" type="number" step="0.01" placeholder="e.g., 62.50 or -120.00" />
+              <label>Put Strike (for Cost Basis)</label>
+              <input id="putStrike" type="number" step="0.01" placeholder="Only for CSP (e.g., 470)" />
             </div>
 
             <div>
@@ -430,14 +538,15 @@
 
             <div style="grid-column:1/-1">
               <label>Notes</label>
-              <textarea id="notes" placeholder="Why did you take this? Any rule violations?"></textarea>
+              <textarea id="notes" placeholder="Why did you take this? Filters? Rules?"></textarea>
             </div>
 
             <div class="row-actions">
-              <button class="primary" type="submit">Save Trade</button>
-              <button type="button" id="btnReset">Reset</button>
+              <button class="primary" id="btnSaveOpen" type="submit">Save Open Position</button>
+              <button type="button" id="btnResetOpen">Reset</button>
+              <button type="button" id="btnCancelEdit" style="display:none;">Cancel Edit</button>
               <span class="spacer"></span>
-              <span class="note">Data saves to your browser (localStorage).</span>
+              <span class="note">Opening adds credit to balance (if Actual Credit entered)</span>
             </div>
           </form>
         </div>
@@ -446,164 +555,201 @@
       <section class="card">
         <div class="hd">
           <div>
-            <h2>Breakdown</h2>
-            <div class="hint">Your edge by strategy + ticker</div>
+            <h2>Close Position</h2>
+            <div class="hint">Pick an open position, enter close debit, and close it</div>
           </div>
         </div>
         <div class="bd">
-          <div class="split">
-            <div>
-              <div class="small" style="margin:0 0 8px">By Strategy (Win Rate)</div>
-              <div class="list" id="byStrategy"></div>
+          <form id="closeForm">
+            <div style="grid-column:1/-1">
+              <label>Pick Open Position</label>
+              <select id="closeSelect"></select>
             </div>
+
             <div>
-              <div class="small" style="margin:0 0 8px">Top Tickers (Win Rate)</div>
-              <div class="list" id="byTicker"></div>
+              <label>Close Date</label>
+              <input id="closeDate" type="date" required />
             </div>
-          </div>
-          <div style="height:12px"></div>
-          <div class="small">
-            Tip: If a ticker has a low win rate, you either need tighter filters or stop trading it.
-          </div>
+
+            <div>
+              <label>Close Debit / Buyback ($)</label>
+              <input id="closeDebit" type="number" step="0.01" placeholder="e.g., 25.00" required />
+            </div>
+
+            <div class="row-actions">
+              <button class="primary" type="submit">Close Selected</button>
+              <span class="spacer"></span>
+              <span class="note">Closing subtracts debit from balance</span>
+            </div>
+          </form>
         </div>
       </section>
     </div>
   </main>
 
+  <div class="footer">
+    Image: save your banner as <span class="mono">profit-hub-banner.png</span> in the same folder as this HTML.
+  </div>
+
 <script>
-  // ---------------------------
-  // Local Storage + Utilities
-  // ---------------------------
-  const STORAGE_KEY = "options_edge_tracker_trades_v1";
+  const STORAGE_KEY_POS = "profit_hub_positions_v1";
+  const STORAGE_KEY_ACC = "profit_hub_account_v1";
 
-  function loadTrades(){
-    try{
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    }catch{
-      return [];
-    }
+  // EDIT MODE (for Open Positions)
+  let editingOpenId = null;
+
+  function loadPositions(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_POS) || "[]"); }
+    catch { return []; }
   }
-  function saveTrades(trades){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+  function savePositions(positions){
+    localStorage.setItem(STORAGE_KEY_POS, JSON.stringify(positions));
   }
-  function uid(){
-    return Math.random().toString(16).slice(2) + Date.now().toString(16);
+  function loadAccount(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_ACC) || "{}"); }
+    catch { return {}; }
   }
-  function fmtPct(n){
-    if (!isFinite(n)) return "—";
-    return (n * 100).toFixed(1) + "%";
+  function saveAccount(acc){
+    localStorage.setItem(STORAGE_KEY_ACC, JSON.stringify(acc));
   }
-  function fmtNum(n){
-    if (n === null || n === undefined || n === "" || !isFinite(n)) return "—";
-    return Number(n).toFixed(2);
-  }
+
+  function uid(){ return Math.random().toString(16).slice(2) + Date.now().toString(16); }
   function safeUpper(s){ return (s||"").toString().trim().toUpperCase(); }
-  function normalizeTags(s){
-    return (s||"")
-      .split(",")
-      .map(t => t.trim())
-      .filter(Boolean);
+  function normalizeTags(s){ return (s||"").split(",").map(t => t.trim()).filter(Boolean); }
+  function isNum(x){ return isFinite(Number(x)); }
+  function fmt2(x){ return isFinite(Number(x)) ? Number(x).toFixed(2) : "—"; }
+  function fmtPct(frac){ return isFinite(Number(frac)) ? (Number(frac)*100).toFixed(1)+"%" : "—"; }
+  function escapeHtml(str){
+    return (str||"").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
   }
 
-  // ---------------------------
-  // Stats + Breakdown
-  // ---------------------------
-  function computeStats(trades){
-    const total = trades.length;
-    const wins = trades.filter(t => t.result === "Win").length;
-    const losses = trades.filter(t => t.result === "Loss").length;
-    const breakevens = trades.filter(t => t.result === "Breakeven").length;
+  function setDefaultDates(){
+    const now = new Date();
+    const iso = now.toISOString().slice(0,10);
+    const entry = document.getElementById("entryDate");
+    const exp = document.getElementById("expDate");
+    const closeDate = document.getElementById("closeDate");
 
-    const winRate = total ? wins / total : NaN;
-
-    const plVals = trades
-      .map(t => Number(t.pl))
-      .filter(v => isFinite(v));
-
-    const totalPL = plVals.reduce((a,b)=>a+b,0);
-    const avgPL = plVals.length ? totalPL / plVals.length : NaN;
-
-    const avgCreditVals = trades
-      .map(t => Number(t.credit))
-      .filter(v => isFinite(v));
-    const avgCredit = avgCreditVals.length ? (avgCreditVals.reduce((a,b)=>a+b,0) / avgCreditVals.length) : NaN;
-
-    // Profit factor: sum(profits) / abs(sum(losses))
-    const profits = plVals.filter(v => v > 0).reduce((a,b)=>a+b,0);
-    const negs = plVals.filter(v => v < 0).reduce((a,b)=>a+b,0);
-    const profitFactor = (profits > 0 && negs < 0) ? (profits / Math.abs(negs)) : NaN;
-
-    // Simple max drawdown on cumulative P/L (only where P/L provided)
-    let maxDD = NaN;
-    if (plVals.length){
-      let peak = -Infinity, cum = 0, dd = 0;
-      maxDD = 0;
-      for (const t of trades){
-        const v = Number(t.pl);
-        if (!isFinite(v)) continue;
-        cum += v;
-        if (cum > peak) peak = cum;
-        dd = peak - cum;
-        if (dd > maxDD) maxDD = dd;
-      }
+    if (entry && !entry.value) entry.value = iso;
+    if (closeDate && !closeDate.value) closeDate.value = iso;
+    if (exp && !exp.value){
+      const plus7 = new Date(now.getTime() + 7*24*60*60*1000).toISOString().slice(0,10);
+      exp.value = plus7;
     }
-
-    return { total, wins, losses, breakevens, winRate, totalPL, avgPL, avgCredit, profitFactor, maxDD };
   }
 
-  function groupWinRate(trades, keyFn){
+  // ✅ Adjusted Cost Basis (per share)
+  // For CSP: (Put Strike) - (credit per share). Credit per share uses Actual Credit if present,
+  // otherwise Expected Credit (so the number is never "wrong" just because you forgot to type actual).
+  function calcAdjustedCostBasisPerShare(pos){
+    if (pos.strategy !== "CSP") return null;
+    const creditTotal =
+      isNum(pos.creditActual) ? Number(pos.creditActual)
+      : (isNum(pos.creditExpected) ? Number(pos.creditExpected) : null);
+
+    if (!isNum(pos.putStrike) || creditTotal === null) return null;
+
+    const contracts = isNum(pos.contracts) && Number(pos.contracts) > 0 ? Number(pos.contracts) : 1;
+    const perShareCredit = creditTotal / (contracts * 100);
+    return Number(pos.putStrike) - perShareCredit;
+  }
+
+  function calcCashFlows(positions){
+    let credits = 0, debits = 0;
+    for (const p of positions){
+      if (isNum(p.creditActual)) credits += Number(p.creditActual);
+      if (p.status === "CLOSED" && isNum(p.closeDebit)) debits += Number(p.closeDebit);
+    }
+    return { credits, debits, net: credits - debits };
+  }
+
+  function computeClosedStats(positions){
+    const closed = positions.filter(p => p.status === "CLOSED");
+    if (!closed.length) return { total:0, wins:0, losses:0, breakevens:0, winRate: NaN, totalPL: 0 };
+
+    let wins=0, losses=0, breakevens=0, totalPL=0;
+    for (const p of closed){
+      const pl = (isNum(p.creditActual)?Number(p.creditActual):0) - (isNum(p.closeDebit)?Number(p.closeDebit):0);
+      totalPL += pl;
+      if (pl > 0) wins++;
+      else if (pl < 0) losses++;
+      else breakevens++;
+    }
+    return { total:closed.length, wins, losses, breakevens, winRate:wins/closed.length, totalPL };
+  }
+
+  function groupWinRate(positions, keyFn){
+    const closed = positions.filter(p => p.status === "CLOSED");
     const map = new Map();
-    for (const t of trades){
-      const k = keyFn(t);
+    for (const p of closed){
+      const k = keyFn(p);
       if (!k) continue;
-      if (!map.has(k)) map.set(k, { key:k, total:0, wins:0, losses:0, breakevens:0 });
+      if (!map.has(k)) map.set(k, { key:k, total:0, wins:0 });
       const g = map.get(k);
       g.total++;
-      if (t.result === "Win") g.wins++;
-      else if (t.result === "Loss") g.losses++;
-      else g.breakevens++;
+      const pl = (isNum(p.creditActual)?Number(p.creditActual):0) - (isNum(p.closeDebit)?Number(p.closeDebit):0);
+      if (pl > 0) g.wins++;
     }
-    const arr = Array.from(map.values()).map(g => ({
-      ...g,
-      winRate: g.total ? g.wins / g.total : NaN
-    }));
+    const arr = Array.from(map.values()).map(g => ({...g, winRate:g.total ? g.wins/g.total : NaN}));
     arr.sort((a,b) => (b.winRate - a.winRate) || (b.total - a.total));
     return arr;
   }
 
-  // ---------------------------
-  // Rendering
-  // ---------------------------
-  function renderStats(trades){
-    const s = computeStats(trades);
-    const statsGrid = document.getElementById("statsGrid");
-    statsGrid.innerHTML = `
-      <div class="stat"><div class="k">Total Trades</div><div class="v">${s.total}</div></div>
-      <div class="stat"><div class="k">Win Rate</div><div class="v">${fmtPct(s.winRate)}</div></div>
-      <div class="stat"><div class="k">Wins / Losses / BE</div><div class="v">${s.wins} / ${s.losses} / ${s.breakevens}</div></div>
-      <div class="stat"><div class="k">Total P/L ($)</div><div class="v">${isFinite(s.totalPL) ? fmtNum(s.totalPL) : "—"}</div></div>
-      <div class="stat"><div class="k">Avg P/L ($)</div><div class="v">${isFinite(s.avgPL) ? fmtNum(s.avgPL) : "—"}</div></div>
-      <div class="stat"><div class="k">Avg Credit ($)</div><div class="v">${isFinite(s.avgCredit) ? fmtNum(s.avgCredit) : "—"}</div></div>
-      <div class="stat"><div class="k">Profit Factor</div><div class="v">${isFinite(s.profitFactor) ? s.profitFactor.toFixed(2) : "—"}</div></div>
-      <div class="stat"><div class="k">Max Drawdown ($)</div><div class="v">${isFinite(s.maxDD) ? fmtNum(s.maxDD) : "—"}</div></div>
+  function breakdownItem(name, winRate, total){
+    return `
+      <div class="item">
+        <div class="left">
+          <div class="title">${escapeHtml(name)}</div>
+          <div class="meta">${total} trades</div>
+        </div>
+        <div class="val">${fmtPct(winRate)}</div>
+      </div>
     `;
   }
 
-  function renderTable(trades, query=""){
+  function renderStats(){
+    const positions = loadPositions();
+    const acc = loadAccount();
+    const startBal = isNum(acc.startingBalance) ? Number(acc.startingBalance) : 0;
+
+    const flows = calcCashFlows(positions);
+    const currentBal = startBal + flows.net;
+
+    const openCount = positions.filter(p => p.status === "OPEN").length;
+    const closedStats = computeClosedStats(positions);
+
+    document.getElementById("statsGrid").innerHTML = `
+      <div class="stat"><div class="k">Account Balance ($)</div><div class="v">${fmt2(currentBal)}</div></div>
+      <div class="stat"><div class="k">Starting Balance ($)</div><div class="v">${fmt2(startBal)}</div></div>
+      <div class="stat"><div class="k">Open Positions</div><div class="v">${openCount}</div></div>
+      <div class="stat"><div class="k">Closed Trades</div><div class="v">${closedStats.total}</div></div>
+      <div class="stat"><div class="k">Closed Win Rate</div><div class="v">${fmtPct(closedStats.winRate)}</div></div>
+      <div class="stat"><div class="k">Wins / Losses / BE</div><div class="v">${closedStats.wins} / ${closedStats.losses} / ${closedStats.breakevens}</div></div>
+      <div class="stat"><div class="k">Credits Collected ($)</div><div class="v">${fmt2(flows.credits)}</div></div>
+      <div class="stat"><div class="k">Closed P/L ($)</div><div class="v">${fmt2(closedStats.totalPL)}</div></div>
+    `;
+  }
+
+  function renderOpenTable(query=""){
+    const positions = loadPositions();
     const q = (query||"").trim().toLowerCase();
-    const filtered = !q ? trades : trades.filter(t => {
-      const blob = [
-        t.ticker, t.strategy, t.result, t.strikes,
-        (t.tags||[]).join(" "),
-        t.notes
-      ].join(" ").toLowerCase();
-      return blob.includes(q);
-    });
 
-    const wrap = document.getElementById("tableWrap");
+    const open = positions
+      .filter(p => p.status === "OPEN")
+      .filter(p => {
+        if (!q) return true;
+        const blob = [p.ticker,p.strategy,p.strikes,p.notes,(p.tags||[]).join(" ")].join(" ").toLowerCase();
+        return blob.includes(q);
+      });
 
-    if (!filtered.length){
-      wrap.innerHTML = `<div class="empty">No trades found. Add your first trade on the right.</div>`;
+    const wrap = document.getElementById("openWrap");
+    if (!open.length){
+      wrap.innerHTML = `<div class="empty">No open positions yet. Add one on the right.</div>`;
       return;
     }
 
@@ -611,37 +757,34 @@
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Ticker</th>
-            <th>Strategy</th>
-            <th>Strike(s)</th>
-            <th>Exp</th>
-            <th>Credit</th>
-            <th>P/L</th>
-            <th>Result</th>
-            <th>Tags</th>
-            <th>Notes</th>
-            <th>Action</th>
+            <th>Entry</th><th>Ticker</th><th>Strategy</th><th>Contracts</th><th>Strikes</th><th>Exp</th>
+            <th>Expected Credit</th><th>Actual Credit</th><th>Put Strike</th><th>Adj. Cost Basis (per share)</th>
+            <th>IVR</th><th>Tags</th><th>Notes</th><th>Action</th>
           </tr>
         </thead>
         <tbody>
-          ${filtered.map(t => {
-            const resClass = t.result === "Win" ? "good" : (t.result === "Loss" ? "bad" : "warn");
-            const tags = (t.tags||[]).map(x => `<span class="tag">${escapeHtml(x)}</span>`).join(" ");
+          ${open.map(p => {
+            const adj = calcAdjustedCostBasisPerShare(p);
+            const tags = (p.tags||[]).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join(" ");
             return `
               <tr>
-                <td class="small">${escapeHtml(t.entryDate || "—")}</td>
-                <td><span class="tag">${escapeHtml(t.ticker)}</span></td>
-                <td>${escapeHtml(t.strategy)}</td>
-                <td class="small">${escapeHtml(t.strikes || "—")}</td>
-                <td class="small">${escapeHtml(t.expDate || "—")}</td>
-                <td class="small">${isFinite(Number(t.credit)) ? fmtNum(t.credit) : "—"}</td>
-                <td class="small">${isFinite(Number(t.pl)) ? fmtNum(t.pl) : "—"}</td>
-                <td class="result ${resClass}">${escapeHtml(t.result)}</td>
-                <td>${tags || "—"}</td>
-                <td class="small">${escapeHtml((t.notes||"").slice(0,140))}${(t.notes||"").length>140 ? "…" : ""}</td>
+                <td class="small">${escapeHtml(p.entryDate||"—")}</td>
+                <td><span class="tag">${escapeHtml(p.ticker)}</span></td>
+                <td>${escapeHtml(p.strategy)}</td>
+                <td class="small">${escapeHtml(String(p.contracts||1))}</td>
+                <td class="small">${escapeHtml(p.strikes||"—")}</td>
+                <td class="small">${escapeHtml(p.expDate||"—")}</td>
+                <td class="small">${isNum(p.creditExpected)?fmt2(p.creditExpected):"—"}</td>
+                <td class="small">${isNum(p.creditActual)?fmt2(p.creditActual):"—"}</td>
+                <td class="small">${isNum(p.putStrike)?fmt2(p.putStrike):"—"}</td>
+                <td class="small">${isNum(adj)?fmt2(adj):"—"}</td>
+                <td class="small">${isNum(p.ivr)?escapeHtml(String(p.ivr)):"—"}</td>
+                <td>${tags||"—"}</td>
+                <td class="small">${escapeHtml((p.notes||"").slice(0,120))}${(p.notes||"").length>120?"…":""}</td>
                 <td>
-                  <button class="btn-del" data-del="${t.id}" title="Delete trade" aria-label="Delete trade">✕</button>
+                  <button class="btn-edit" data-edit="${p.id}">Edit</button>
+                  <button class="btn-close" data-close="${p.id}">Close</button>
+                  <button class="btn-del" data-del="${p.id}">✕</button>
                 </td>
               </tr>
             `;
@@ -653,62 +796,162 @@
     wrap.querySelectorAll("button[data-del]").forEach(btn => {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-del");
-        const tradesNow = loadTrades().filter(t => t.id !== id);
-        saveTrades(tradesNow);
+        if (editingOpenId === id) exitEditMode(true);
+        savePositions(loadPositions().filter(p => p.id !== id));
+        refreshUI();
+      });
+    });
+
+    wrap.querySelectorAll("button[data-close]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-close");
+        const sel = document.getElementById("closeSelect");
+        sel.value = id;
+        document.getElementById("closeDebit").focus();
+      });
+    });
+
+    // ✅ NEW: Edit button
+    wrap.querySelectorAll("button[data-edit]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-edit");
+        enterEditMode(id);
+      });
+    });
+  }
+
+  function renderClosedTable(query=""){
+    const positions = loadPositions();
+    const q = (query||"").trim().toLowerCase();
+
+    const closed = positions.filter(p => p.status === "CLOSED").filter(p => {
+      if (!q) return true;
+      const blob = [p.ticker,p.strategy,p.strikes,p.notes,(p.tags||[]).join(" ")].join(" ").toLowerCase();
+      return blob.includes(q);
+    });
+
+    const wrap = document.getElementById("closedWrap");
+    if (!closed.length){
+      wrap.innerHTML = `<div class="empty">No closed positions yet. Close an open position to build stats.</div>`;
+      return;
+    }
+
+    wrap.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Entry</th><th>Close</th><th>Ticker</th><th>Strategy</th><th>Contracts</th><th>Strikes</th><th>Exp</th>
+            <th>Actual Credit</th><th>Close Debit</th><th>P/L</th><th>Result</th><th>Adj. Cost Basis (per share)</th>
+            <th>Tags</th><th>Notes</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${closed.map(p => {
+            const pl = (isNum(p.creditActual)?Number(p.creditActual):0) - (isNum(p.closeDebit)?Number(p.closeDebit):0);
+            const resClass = pl>0?"good":(pl<0?"bad":"warn");
+            const resText = pl>0?"Win":(pl<0?"Loss":"Breakeven");
+            const adj = calcAdjustedCostBasisPerShare(p);
+            const tags = (p.tags||[]).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join(" ");
+            return `
+              <tr>
+                <td class="small">${escapeHtml(p.entryDate||"—")}</td>
+                <td class="small">${escapeHtml(p.closeDate||"—")}</td>
+                <td><span class="tag">${escapeHtml(p.ticker)}</span></td>
+                <td>${escapeHtml(p.strategy)}</td>
+                <td class="small">${escapeHtml(String(p.contracts||1))}</td>
+                <td class="small">${escapeHtml(p.strikes||"—")}</td>
+                <td class="small">${escapeHtml(p.expDate||"—")}</td>
+                <td class="small">${isNum(p.creditActual)?fmt2(p.creditActual):"—"}</td>
+                <td class="small">${isNum(p.closeDebit)?fmt2(p.closeDebit):"—"}</td>
+                <td class="small">${fmt2(pl)}</td>
+                <td class="result ${resClass}">${resText}</td>
+                <td class="small">${isNum(adj)?fmt2(adj):"—"}</td>
+                <td>${tags||"—"}</td>
+                <td class="small">${escapeHtml((p.notes||"").slice(0,120))}${(p.notes||"").length>120?"…":""}</td>
+                <td><button class="btn-del" data-del="${p.id}">✕</button></td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
+
+    wrap.querySelectorAll("button[data-del]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-del");
+        savePositions(loadPositions().filter(p => p.id !== id));
         refreshUI();
       });
     });
   }
 
-  function renderBreakdowns(trades){
-    const byStrategy = groupWinRate(trades, t => t.strategy);
-    const byTicker = groupWinRate(trades, t => t.ticker);
+  // ✅ FIXED: always selectable + auto-select first open
+  function renderCloseDropdown(){
+    const open = loadPositions().filter(p => p.status === "OPEN");
+    const sel = document.getElementById("closeSelect");
 
-    const sWrap = document.getElementById("byStrategy");
-    const tWrap = document.getElementById("byTicker");
+    if (!open.length){
+      sel.innerHTML = `<option value="">No open positions</option>`;
+      sel.disabled = true;
+      return;
+    }
 
-    sWrap.innerHTML = byStrategy.length
-      ? byStrategy.slice(0,6).map(g => breakdownItem(g.key, g.winRate, g.total)).join("")
-      : `<div class="empty">No data yet.</div>`;
+    sel.disabled = false;
 
-    tWrap.innerHTML = byTicker.length
-      ? byTicker.slice(0,6).map(g => breakdownItem(g.key, g.winRate, g.total)).join("")
-      : `<div class="empty">No data yet.</div>`;
+    sel.innerHTML = open.map(p => {
+      const label = `${p.ticker} | ${p.strategy} | ${p.strikes || "—"} | exp ${p.expDate || "—"}`;
+      return `<option value="${p.id}">${escapeHtml(label)}</option>`;
+    }).join("");
+
+    // ✅ ALWAYS make sure something is selected
+    if (!sel.value) sel.value = open[0].id;
   }
 
-  function breakdownItem(name, winRate, total){
-    const pct = fmtPct(winRate);
-    return `
-      <div class="item">
-        <div class="left">
-          <div class="title">${escapeHtml(name)}</div>
-          <div class="meta">${total} trades</div>
-        </div>
-        <div class="val">${pct}</div>
-      </div>
-    `;
+  function renderBreakdowns(){
+    const positions = loadPositions();
+    const byStrat = groupWinRate(positions, p => p.strategy);
+    const byTick = groupWinRate(positions, p => p.ticker);
+
+    document.getElementById("byStrategy").innerHTML = byStrat.length
+      ? byStrat.slice(0,6).map(g => breakdownItem(g.key, g.winRate, g.total)).join("")
+      : `<div class="empty">No closed data yet.</div>`;
+
+    document.getElementById("byTicker").innerHTML = byTick.length
+      ? byTick.slice(0,6).map(g => breakdownItem(g.key, g.winRate, g.total)).join("")
+      : `<div class="empty">No closed data yet.</div>`;
   }
 
-  function escapeHtml(str){
-    return (str||"").toString()
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
+  function exportCSV(){
+    const positions = loadPositions();
+    if (!positions.length){ alert("No data to export yet."); return; }
 
-  // ---------------------------
-  // CSV Export
-  // ---------------------------
-  function exportCSV(trades){
-    const headers = ["id","ticker","strategy","entryDate","expDate","strikes","credit","pl","result","ivr","tags","notes"];
-    const rows = trades.map(t => [
-      t.id, t.ticker, t.strategy, t.entryDate, t.expDate, t.strikes ?? "",
-      t.credit ?? "", t.pl ?? "", t.result, t.ivr ?? "",
-      (t.tags||[]).join("|"),
-      (t.notes||"").replaceAll("\n"," ").trim()
-    ]);
+    const headers = [
+      "id","status","ticker","strategy","entryDate","expDate","contracts","strikes",
+      "creditExpected","creditActual","putStrike","adjCostBasisPerShare",
+      "ivr","tags","notes","closeDate","closeDebit","pl"
+    ];
+
+    const rows = positions.map(p => {
+      const adj = calcAdjustedCostBasisPerShare(p);
+      const pl = (p.status === "CLOSED")
+        ? ((isNum(p.creditActual)?Number(p.creditActual):0) - (isNum(p.closeDebit)?Number(p.closeDebit):0))
+        : "";
+
+      return [
+        p.id, p.status, p.ticker, p.strategy, p.entryDate||"", p.expDate||"",
+        isNum(p.contracts)?Number(p.contracts):"", p.strikes||"",
+        isNum(p.creditExpected)?Number(p.creditExpected):"",
+        isNum(p.creditActual)?Number(p.creditActual):"",
+        isNum(p.putStrike)?Number(p.putStrike):"",
+        isNum(adj)?Number(adj):"",
+        isNum(p.ivr)?Number(p.ivr):"",
+        (p.tags||[]).join("|"),
+        (p.notes||"").replaceAll("\n"," ").trim(),
+        p.closeDate||"",
+        isNum(p.closeDebit)?Number(p.closeDebit):"",
+        pl
+      ];
+    });
 
     const csv = [headers, ...rows]
       .map(r => r.map(cell => {
@@ -720,115 +963,243 @@
 
     const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
     const url = URL.createObjectURL(blob);
-
     const a = document.createElement("a");
     a.href = url;
-    a.download = "options-edge-trades.csv";
+    a.download = "profit-hub-options-tracker.csv";
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
   }
 
-  // ---------------------------
-  // UI refresh
-  // ---------------------------
   function refreshUI(){
-    const trades = loadTrades();
     const q = document.getElementById("search").value || "";
-    renderStats(trades);
-    renderTable(trades, q);
-    renderBreakdowns(trades);
+    renderStats();
+    renderOpenTable(q);
+    renderClosedTable(q);
+    renderBreakdowns();
+    renderCloseDropdown();
+
+    const acc = loadAccount();
+    if (acc && isNum(acc.startingBalance)){
+      const sb = document.getElementById("startingBalance");
+      if (sb && sb.value === "") sb.value = Number(acc.startingBalance);
+    }
   }
 
   // ---------------------------
-  // Form handling
+  // EDIT MODE HELPERS
   // ---------------------------
-  document.getElementById("tradeForm").addEventListener("submit", (e) => {
+  function enterEditMode(id){
+    const positions = loadPositions();
+    const pos = positions.find(p => p.id === id && p.status === "OPEN");
+    if (!pos) return;
+
+    editingOpenId = id;
+
+    // Fill form
+    document.getElementById("ticker").value = pos.ticker || "";
+    document.getElementById("strategy").value = pos.strategy || "CSP";
+    document.getElementById("entryDate").value = pos.entryDate || "";
+    document.getElementById("expDate").value = pos.expDate || "";
+    document.getElementById("contracts").value = isNum(pos.contracts) ? Number(pos.contracts) : 1;
+    document.getElementById("strikes").value = pos.strikes || "";
+    document.getElementById("creditExpected").value = isNum(pos.creditExpected) ? Number(pos.creditExpected) : "";
+    document.getElementById("creditActual").value = isNum(pos.creditActual) ? Number(pos.creditActual) : "";
+    document.getElementById("putStrike").value = isNum(pos.putStrike) ? Number(pos.putStrike) : "";
+    document.getElementById("ivr").value = isNum(pos.ivr) ? Number(pos.ivr) : "";
+    document.getElementById("tags").value = (pos.tags || []).join(", ");
+    document.getElementById("notes").value = pos.notes || "";
+
+    // UI toggles
+    document.getElementById("btnSaveOpen").textContent = "Update Open Position";
+    document.getElementById("btnCancelEdit").style.display = "inline-block";
+
+    // Scroll to form
+    document.getElementById("openForm").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function exitEditMode(silent=false){
+    editingOpenId = null;
+    document.getElementById("btnSaveOpen").textContent = "Save Open Position";
+    document.getElementById("btnCancelEdit").style.display = "none";
+    if (!silent){
+      document.getElementById("openForm").reset();
+      setDefaultDates();
+    }
+  }
+
+  // ---------------------------
+  // Events
+  // ---------------------------
+  document.getElementById("search").addEventListener("input", refreshUI);
+
+  document.getElementById("accountForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = document.getElementById("startingBalance").value;
+    const acc = loadAccount();
+    acc.startingBalance = (v === "" ? "" : Number(v));
+    saveAccount(acc);
+    refreshUI();
+  });
+
+  document.getElementById("openForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const trade = {
-      id: uid(),
+    const newData = {
       ticker: safeUpper(document.getElementById("ticker").value),
       strategy: document.getElementById("strategy").value,
       entryDate: document.getElementById("entryDate").value,
       expDate: document.getElementById("expDate").value,
+      contracts: Number(document.getElementById("contracts").value || 1),
       strikes: document.getElementById("strikes").value.trim(),
-      result: document.getElementById("result").value,
-      credit: document.getElementById("credit").value === "" ? "" : Number(document.getElementById("credit").value),
-      pl: document.getElementById("pl").value === "" ? "" : Number(document.getElementById("pl").value),
+      creditExpected: document.getElementById("creditExpected").value === "" ? "" : Number(document.getElementById("creditExpected").value),
+      creditActual: document.getElementById("creditActual").value === "" ? "" : Number(document.getElementById("creditActual").value),
+      putStrike: document.getElementById("putStrike").value === "" ? "" : Number(document.getElementById("putStrike").value),
       ivr: document.getElementById("ivr").value === "" ? "" : Number(document.getElementById("ivr").value),
       tags: normalizeTags(document.getElementById("tags").value),
-      notes: document.getElementById("notes").value.trim(),
+      notes: document.getElementById("notes").value.trim()
+    };
+
+    const positions = loadPositions();
+
+    // ✅ If editing, update existing open position (keeps id, createdAt, status, close fields)
+    if (editingOpenId){
+      const idx = positions.findIndex(p => p.id === editingOpenId && p.status === "OPEN");
+      if (idx === -1){
+        alert("That open position was not found (maybe deleted/closed).");
+        exitEditMode();
+        refreshUI();
+        return;
+      }
+      positions[idx] = {
+        ...positions[idx],
+        ...newData
+      };
+      savePositions(positions);
+      exitEditMode();
+      refreshUI();
+      return;
+    }
+
+    // ✅ Otherwise create a new open position
+    const pos = {
+      id: uid(),
+      status: "OPEN",
+      ...newData,
+      closeDate: "",
+      closeDebit: "",
       createdAt: new Date().toISOString()
     };
 
-    const trades = loadTrades();
-    trades.unshift(trade);
-    saveTrades(trades);
+    positions.unshift(pos);
+    savePositions(positions);
 
     e.target.reset();
     setDefaultDates();
     refreshUI();
   });
 
-  document.getElementById("btnReset").addEventListener("click", () => {
-    document.getElementById("tradeForm").reset();
+  document.getElementById("btnResetOpen").addEventListener("click", () => {
+    document.getElementById("openForm").reset();
     setDefaultDates();
   });
 
-  document.getElementById("search").addEventListener("input", () => refreshUI());
+  document.getElementById("btnCancelEdit").addEventListener("click", () => {
+    exitEditMode();
+    refreshUI();
+  });
 
-  document.getElementById("btnClear").addEventListener("click", () => {
-    if (confirm("Clear ALL trades? This cannot be undone.")){
-      saveTrades([]);
+  document.getElementById("closeForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const sel = document.getElementById("closeSelect");
+    const id = sel.value;
+
+    if (!id){
+      alert("No open position selected.");
+      return;
+    }
+
+    const closeDate = document.getElementById("closeDate").value;
+    const closeDebit = Number(document.getElementById("closeDebit").value);
+
+    const positions = loadPositions();
+    const idx = positions.findIndex(p => p.id === id && p.status === "OPEN");
+    if (idx === -1){
+      alert("That open position was not found (maybe already closed).");
+      return;
+    }
+
+    // If you were editing this one, exit edit mode automatically
+    if (editingOpenId === id) exitEditMode(true);
+
+    positions[idx].status = "CLOSED";
+    positions[idx].closeDate = closeDate;
+    positions[idx].closeDebit = closeDebit;
+    positions[idx].closedAt = new Date().toISOString();
+
+    savePositions(positions);
+
+    e.target.reset();
+    setDefaultDates();
+    refreshUI();
+  });
+
+  document.getElementById("btnExport").addEventListener("click", exportCSV);
+
+  document.getElementById("btnClearAll").addEventListener("click", () => {
+    if (confirm("Clear ALL positions + account settings? This cannot be undone.")){
+      localStorage.removeItem(STORAGE_KEY_POS);
+      localStorage.removeItem(STORAGE_KEY_ACC);
+      document.getElementById("startingBalance").value = "";
+      exitEditMode(true);
       refreshUI();
     }
   });
 
-  document.getElementById("btnExport").addEventListener("click", () => {
-    const trades = loadTrades();
-    if (!trades.length){
-      alert("No trades to export yet.");
-      return;
-    }
-    exportCSV(trades);
-  });
-
   document.getElementById("btnAddSample").addEventListener("click", () => {
-    const trades = loadTrades();
-    if (trades.length && !confirm("Add sample trades on top of your existing trades?")) return;
+    const positions = loadPositions();
+    if (positions.length && !confirm("Add sample data on top of your existing data?")) return;
 
     const today = new Date();
-    const d = (dt) => dt.toISOString().slice(0,10);
+    const iso = (d) => d.toISOString().slice(0,10);
     const plusDays = (n) => new Date(today.getTime() + n*24*60*60*1000);
 
     const sample = [
-      { ticker:"SPY", strategy:"CSP", entryDate:d(today), expDate:d(plusDays(7)), strikes:"470p", credit:85, pl:62.5, result:"Win", ivr:42, tags:["weekly","highIV"], notes:"Sold into IV pop; closed at 70%." },
-      { ticker:"TSLA", strategy:"Credit Spread", entryDate:d(plusDays(-3)), expDate:d(plusDays(4)), strikes:"240/235p", credit:120, pl:-180, result:"Loss", ivr:55, tags:["trend","aggressive"], notes:"Ignored market bias; took it anyway." },
-      { ticker:"NVDA", strategy:"CC", entryDate:d(plusDays(-10)), expDate:d(plusDays(-3)), strikes:"520c", credit:95, pl:95, result:"Win", ivr:38, tags:["wheel"], notes:"Let expire worthless." },
-      { ticker:"QQQ", strategy:"CSP", entryDate:d(plusDays(-6)), expDate:d(plusDays(1)), strikes:"405p", credit:70, pl:0, result:"Breakeven", ivr:47, tags:["earnings"], notes:"Closed flat to avoid event risk." }
-    ].map(s => ({ ...s, id: uid(), createdAt: new Date().toISOString() }));
+      {
+        id: uid(), status: "OPEN", ticker: "SPY", strategy: "CSP",
+        entryDate: iso(today), expDate: iso(plusDays(7)), contracts: 1, strikes: "470p",
+        creditExpected: 85, creditActual: 82.5, putStrike: 470, ivr: 42,
+        tags: ["weekly","highIV"], notes: "Sold into IV pop. Waiting for 50–75% close.",
+        closeDate: "", closeDebit: ""
+      },
+      {
+        id: uid(), status: "CLOSED", ticker: "NVDA", strategy: "CC",
+        entryDate: iso(plusDays(-10)), expDate: iso(plusDays(-3)), contracts: 1, strikes: "520c",
+        creditExpected: 95, creditActual: 95, putStrike: "", ivr: 38,
+        tags: ["wheel"], notes: "Expired worthless.",
+        closeDate: iso(plusDays(-3)), closeDebit: 0
+      }
+    ].map(x => ({...x, createdAt: new Date().toISOString()}));
 
-    saveTrades([...sample, ...trades]);
+    savePositions([...sample, ...positions]);
+
+    const acc = loadAccount();
+    if (!isNum(acc.startingBalance)){
+      acc.startingBalance = 5000;
+      saveAccount(acc);
+      document.getElementById("startingBalance").value = 5000;
+    }
+
+    setDefaultDates();
     refreshUI();
   });
-
-  function setDefaultDates(){
-    const entry = document.getElementById("entryDate");
-    const exp = document.getElementById("expDate");
-    const now = new Date();
-    const iso = now.toISOString().slice(0,10);
-    if (!entry.value) entry.value = iso;
-
-    const plus7 = new Date(now.getTime() + 7*24*60*60*1000).toISOString().slice(0,10);
-    if (!exp.value) exp.value = plus7;
-  }
 
   // Init
   setDefaultDates();
   refreshUI();
 </script>
+
 </body>
 </html>
-
